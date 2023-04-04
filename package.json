@@ -1,0 +1,10 @@
+{
+  "name": "azure-b2c-oidc-ts",
+  "version": "1.0.0",
+  "description": "OIDC integration with Azure B2C in Typescript",
+  "main": "index.js",
+  "repository": "git@github.com:barwick/azure-b2c-oidc-ts.git",
+  "author": "Tom Barwick <tom_barwick@hotmail.com>",
+  "license": "MIT",
+  "private": true
+}
