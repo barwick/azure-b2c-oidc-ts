@@ -3,9 +3,8 @@ import express, { Express, Request, Response } from "express";
 import Home from "./pages/home";
 
 dotenv.config();
-
 const app: Express = express();
-const port = process.env.PORT;
+const port: number = parseInt(process.env.PORT || "80") || 80;
 
 app.use(express.static("dist"));
 
@@ -17,7 +16,7 @@ app.get("/", (req: Request, res: Response) => {
           <title>OIDC Client - Azure B2C</title>
       </head>
       <body>
-          <div id="app">${Home}</div>
+          <div>${Home}</div>
           <script src="./home.js"></script>
       </body>
   </html>`);

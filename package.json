@@ -10,7 +10,6 @@
   "dependencies": {
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
-    "oidc-client-ts": "^2.2.2",
     "preact": "^10.13.2",
     "preact-render-to-string": "^6.0.2",
     "typescript": "^5.0.3"
@@ -24,6 +23,7 @@
   "scripts": {
     "build": "tsc",
     "start": "node dist/index.js",
-    "dev": "concurrently \"npx tsc --watch\" \"nodemon -q dist/index.js\""
+    "reverse-proxy": "source .env && caddy reverse-proxy --from localhost:443 --to localhost:$PORT",
+    "dev": "concurrently --kill-others \"yarn reverse-proxy\" \"npx tsc --watch\" \"nodemon -q dist/index.js\""
   }
 }
