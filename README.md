@@ -1,6 +1,6 @@
 # azure-b2c-oidc-ts
 
-OIDC integration with Azure B2C in Typescript
+OIDC integration with Azure B2C in Typescript. Uses Express to serve content via API & Preact as a simple virtual DOM for the page.
 
 ## Run
 

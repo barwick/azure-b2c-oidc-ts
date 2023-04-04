@@ -1,14 +1,29 @@
 import dotenv from "dotenv";
 import express, { Express, Request, Response } from "express";
-import Home from "./pages/home";
+import { auth as authMiddleware } from "express-openid-connect";
+
+import buildHome from "./pages/home";
 
 dotenv.config();
 const app: Express = express();
 const port: number = parseInt(process.env.PORT || "80") || 80;
 
+// Set up Auth middleware (OpenID)
+app.use(authMiddleware());
+app.set("trust proxy", true);
+
+// Serve JS files from dist
 app.use(express.static("dist"));
 
+// Middleware to make the `user` object available for all views
+app.use(function (req, res, next) {
+  res.locals.user = req.oidc.user;
+  next();
+});
+
+// Simple html wrapper to render the homepage
 app.get("/", (req: Request, res: Response) => {
+  // res.render(); // TODO https://github.com/edwjusti/express-preact-views
   res.send(`<!DOCTYPE html>
   <html>
       <head>
@@ -16,8 +31,8 @@ app.get("/", (req: Request, res: Response) => {
           <title>OIDC Client - Azure B2C</title>
       </head>
       <body>
-          <div>${Home}</div>
-          <script src="./home.js"></script>
+          <div id="root">${buildHome()}</div>
+          <script type="module" src="client.js" async></script>
       </body>
   </html>`);
 });

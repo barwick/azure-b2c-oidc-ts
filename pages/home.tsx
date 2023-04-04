@@ -1,5 +1,13 @@
 import { render } from "preact-render-to-string";
 
-const App = () => <p>Hello World!</p>;
+export const Home = () => {
+  console.log("🚨 TESTING HERE TESTING");
+  // console.log("🚨 Locals: ", locals);
+  return <p>Hello World!</p>;
+};
 
-export default render(<App />);
+const buildHome = () => {
+  return render(<Home />);
+};
+
+export default buildHome;
