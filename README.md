@@ -7,6 +7,7 @@ OIDC integration with Azure B2C in Typescript. Uses Express to serve content via
 ```bash
 mv .env.example .env && source .env
 brew install Caddy                      # Provides a reverse-proxy to serve localhost over https (important for Same-Site cookies)
+yarn build                              # Must build once before `yarn dev` will work
 yarn dev
 ```
 

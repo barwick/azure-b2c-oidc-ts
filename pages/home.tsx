@@ -1,13 +1,49 @@
-import { render } from "preact-render-to-string";
+import { Component } from "preact";
 
-export const Home = () => {
-  console.log("🚨 TESTING HERE TESTING");
-  // console.log("🚨 Locals: ", locals);
-  return <p>Hello World!</p>;
+type UserAuth = {
+  aio: string;
+  amr: [string];
+  email: string;
+  family_name: string;
+  given_name: string;
+  idp: string;
+  ipaddr: string;
+  name: string;
+  oid: string;
+  rh: string;
+  sub: string;
+  tid: string;
+  unique_name: string;
+  uti: string;
+  ver: string;
 };
 
-const buildHome = () => {
-  return render(<Home />);
-};
+class Home extends Component {
+  render({ ...props }) {
+    const user: UserAuth = props.user;
 
-export default buildHome;
+    return !user ? (
+      <p>
+        Not logged in. <a href="/login">Login</a>
+      </p>
+    ) : (
+      <div>
+        <p>
+          You are logged in! <a href="/logout">Logout</a>
+        </p>
+        <table>
+          {Object.entries(user).map(([key, value]) => (
+            <tr>
+              <td>
+                <b>{key}</b>
+              </td>
+              <td>{value}</td>
+            </tr>
+          ))}
+        </table>
+      </div>
+    );
+  }
+}
+
+export default Home;

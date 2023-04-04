@@ -9,10 +9,10 @@
   "private": true,
   "dependencies": {
     "dotenv": "^16.0.3",
-    "express": "^4.18.2",
     "express-openid-connect": "^2.13.0",
+    "express-preact-views": "^1.1.0",
+    "express": "^4.18.2",
     "preact": "^10.13.2",
-    "preact-render-to-string": "^6.0.2",
     "typescript": "^5.0.3"
   },
   "devDependencies": {
@@ -25,10 +25,10 @@
     "rollup": "^3.20.2"
   },
   "scripts": {
-    "rollup": "rollup --config --bundleConfigAsCjs",
     "build": "tsc && yarn rollup",
-    "start": "node dist/index.js",
+    "dev": "concurrently --kill-others \"yarn reverse-proxy\" \"npx tsc --watch\" \"yarn rollup -- --watch\" \"nodemon -q dist/index.js\"",
     "reverse-proxy": "source .env && caddy reverse-proxy --from localhost:443 --to localhost:$PORT",
-    "dev": "concurrently --kill-others \"yarn reverse-proxy\" \"tsc --watch\" \"yarn rollup -- --watch\" \"nodemon -q dist/index.js\""
+    "rollup": "rollup --config --bundleConfigAsCjs",
+    "start": "node dist/index.js"
   }
 }
