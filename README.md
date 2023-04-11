@@ -6,9 +6,16 @@ OIDC integration with Azure B2C in Typescript. Uses Express to serve content via
 
 ```bash
 mv .env.example .env && source .env
-brew install Caddy                      # Provides a reverse-proxy to serve localhost over https (important for Same-Site cookies)
 yarn build                              # Must build once before `yarn dev` will work
 yarn dev
 ```
 
-Navigate to [https://localhost](https://localhost) to view the app. Caddy redirects `localhost:443` traffic to your local dev server.
+Now visit `https://localhost:$PORT` (`PORT` set in `.env`) to see the app running.
+
+## Local Development certificate
+
+For `Same-Site` cookies to work correctly with express & Azure B2C, we need to serve the app over `https`. To do this locally, we configure the app with a self signed certificate so our browser trusts `https://localhost`. Command used to generate the certificate from the request configuration `localhost.cnf`:
+
+```bash
+openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout localhost.key -out localhost.pem -config localhost.cnf -sha256
+```

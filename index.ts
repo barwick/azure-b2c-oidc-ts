@@ -2,6 +2,8 @@ import dotenv from "dotenv";
 import express, { Express, Request, Response } from "express";
 import { auth as authMiddleware } from "express-openid-connect";
 import preactViewEngine from "express-preact-views";
+import fs from "fs";
+import https from "https";
 
 dotenv.config();
 const app: Express = express();
@@ -26,6 +28,18 @@ app.get("/", (req: Request, res: Response) => {
   });
 });
 
-app.listen(port, () => {
-  console.log(`👾 [Server]: Server is running at http://localhost:${port}`);
-});
+let onStart = () => {
+  console.log(`👾 [Server]: Server is running at https://localhost:${port}`);
+};
+
+if (!process.env.IS_PRODUCTION) {
+  const httpsOptions = {
+    // certs for localhost over https
+    key: fs.readFileSync("./certs/localhost.key"),
+    cert: fs.readFileSync("./certs/localhost.pem"),
+  };
+  console.log(`👾 [Server]: Server running in DEV mode`);
+  https.createServer(httpsOptions, app).listen(port, onStart);
+} else {
+  app.listen(port, onStart);
+}
